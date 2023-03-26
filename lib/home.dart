@@ -18,18 +18,18 @@ class _MyHomePageState extends State<MyHomePage> {
   String? _predictedOverallRisk;
   File? imageURI;
   bool _loading =false;
-    Future<void> predictImage() async{
+    Future<void> predictImage() async{ //asynchronous method 
       setState(() {
        _loading =true;
       });
      if (_imageString == null) {
     return;
     }
-    final request = http.MultipartRequest('POST',Uri.parse('http://192.168.1.5:8000/predict_defects'));
-    final requestRisk = http.MultipartRequest('POST',Uri.parse('http://192.168.1.5:8000/predict_risks'));
+    final request = http.MultipartRequest('POST',Uri.parse('http://192.168.1.5:5000/predict_defects'));
+    final requestRisk = http.MultipartRequest('POST',Uri.parse('http://192.168.1.5:5000/predict_risks'));
     final OverallRiskrequest = http.MultipartRequest(
     'POST',
-    Uri.parse('http://192.168.1.5:8000/predict_overall_risk'),
+    Uri.parse('http://192.168.1.5:5000/predict_overall_risk'),
   );
   OverallRiskrequest.files.add(
     await http.MultipartFile.fromPath(
@@ -76,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
         imageURI = imgFile;
         _predictedImageDefect = null;
         _predictedImageRisk = null;
+        _predictedOverallRisk = null;
       });
       if (imgFile != null) {
       final bytes = await imgFile.readAsBytes();
@@ -97,6 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
          imageURI = imgFile;
         _predictedImageDefect = null;
         _predictedImageRisk = null;
+        _predictedOverallRisk = null;
       });
         if (imgFile != null) {
       final bytes = await imgFile.readAsBytes();
@@ -113,6 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _clearImage() {
     setState(() {
       imageURI = null;
+      _predictedOverallRisk = null;
       _predictedImageDefect = null;
       _predictedImageRisk = null;
     });
@@ -320,7 +323,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   _predictedOverallRisk !=null?
                   Container(
                     margin: const EdgeInsets.all(5),
-                    child: Text("Overall risk of this tyre :  $_predictedOverallRisk ", style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 14),),):Text(" "),
+                    child: Text("Overall risk of this tyre :  $_predictedOverallRisk ", style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 14, fontFamily: "Inter"),),):
+                    Text(" "),
           SizedBox(height: 20,)
           ]),
         ),
