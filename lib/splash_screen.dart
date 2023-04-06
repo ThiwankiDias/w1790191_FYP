@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:w1790191_frontend/home.dart';
+import 'package:w1790191_frontend/detect.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

@@ -3,8 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:w1790191_frontend/guide.dart';
-import 'package:w1790191_frontend/results.dart';
 import 'dart:convert';
+
+import 'custom_search.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -12,60 +13,64 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String? _imageString; 
+  String? _imageString;
   String? _predictedImageDefect;
   String? _predictedImageRisk;
   String? _predictedOverallRisk;
   File? imageURI;
-  bool _loading =false;
-    Future<void> predictImage() async{ //asynchronous method 
-      setState(() {
-       _loading =true;
-      });
-     if (_imageString == null) {
-    return;
+  bool _loading = false;
+  Future<void> predictImage() async {
+    //asynchronous method
+    setState(() {
+      _loading = true;
+    });
+    if (_imageString == null) {
+      return;
     }
-    final request = http.MultipartRequest('POST',Uri.parse('http://192.168.1.5:5000/predict_defects'));
-    final requestRisk = http.MultipartRequest('POST',Uri.parse('http://192.168.1.5:5000/predict_risks'));
+    final request = http.MultipartRequest(
+        'POST', Uri.parse('http://192.168.1.5:5000/predict_defects'));
+    final requestRisk = http.MultipartRequest(
+        'POST', Uri.parse('http://192.168.1.5:5000/predict_risks'));
     final OverallRiskrequest = http.MultipartRequest(
-    'POST',
-    Uri.parse('http://192.168.1.5:5000/predict_overall_risk'),
-  );
-  OverallRiskrequest.files.add(
-    await http.MultipartFile.fromPath(
-      'image',
-      imageURI!.path,
-    ),
-  );
+      'POST',
+      Uri.parse('http://192.168.1.5:5000/predict_overall_risk'),
+    );
+    OverallRiskrequest.files.add(
+      await http.MultipartFile.fromPath(
+        'file',
+        imageURI!.path,
+      ),
+    );
 
     request.files.add(
-    http.MultipartFile.fromBytes(
-      'file',
-      base64Decode(_imageString!),
-      filename: 'image.jpg',
-    ),
-  );
+      http.MultipartFile.fromBytes(
+        'file',
+        base64Decode(_imageString!),
+        filename: 'image.jpg',
+      ),
+    );
 
-  requestRisk.files.add(http.MultipartFile.fromBytes('file', base64Decode(_imageString!),filename: 'image1.jpg'));
-  
+    requestRisk.files.add(http.MultipartFile.fromBytes(
+        'file', base64Decode(_imageString!),
+        filename: 'image1.jpg'));
 
-  final response = await request.send();
-  final responseRisk = await requestRisk.send();
-  final overallRiskResponse = await OverallRiskrequest.send();
-  if (response.statusCode == 200 && responseRisk.statusCode==200) {
+    final response = await request.send();
+    final responseRisk = await requestRisk.send();
+    final overallRiskResponse = await OverallRiskrequest.send();
+    if (response.statusCode == 200 && responseRisk.statusCode == 200) {
       final jsonResponse = await overallRiskResponse.stream.bytesToString();
       final decodedResponse = json.decode(jsonResponse);
       final bytes = await response.stream.toBytes();
       final bytesRisk = await responseRisk.stream.toBytes();
 
-    setState(() {
-      _predictedOverallRisk = decodedResponse["risk_level"];
-      _predictedImageDefect = base64Encode(bytes);
-      _predictedImageRisk = base64Encode(bytesRisk);
-      _loading =false;
-    });
-    print('$_predictedOverallRisk');
-  }
+      setState(() {
+        _predictedOverallRisk = decodedResponse["risk_level"];
+        _predictedImageDefect = base64Encode(bytes);
+        _predictedImageRisk = base64Encode(bytesRisk);
+        _loading = false;
+      });
+      print('$_predictedOverallRisk');
+    }
   }
 
   Future _getImageFromCam() async {
@@ -79,11 +84,11 @@ class _MyHomePageState extends State<MyHomePage> {
         _predictedOverallRisk = null;
       });
       if (imgFile != null) {
-      final bytes = await imgFile.readAsBytes();
-      setState(() {
-        _imageString = base64Encode(bytes);
-      });
-    }
+        final bytes = await imgFile.readAsBytes();
+        setState(() {
+          _imageString = base64Encode(bytes);
+        });
+      }
     } catch (e) {
       print(e);
     }
@@ -95,17 +100,17 @@ class _MyHomePageState extends State<MyHomePage> {
       XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
       File imgFile = File(image!.path); //convert the XFile to file
       setState(() {
-         imageURI = imgFile;
+        imageURI = imgFile;
         _predictedImageDefect = null;
         _predictedImageRisk = null;
         _predictedOverallRisk = null;
       });
-        if (imgFile != null) {
-      final bytes = await imgFile.readAsBytes();
-      setState(() {
-        _imageString = base64Encode(bytes);
-      });
-    }
+      if (imgFile != null) {
+        final bytes = await imgFile.readAsBytes();
+        setState(() {
+          _imageString = base64Encode(bytes);
+        });
+      }
     } catch (e) {
       print(e);
     }
@@ -123,17 +128,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
+      appBar: AppBar(
+        title: Text("TYRE-DDR"),
+        actions: [
+          IconButton(onPressed: (){
+            showSearch(context: context, delegate: CustomSearch());
+          }, icon: const Icon(Icons.search))
+        ],
+      ),
       backgroundColor: Color(0xFF629CD1),
       body: SingleChildScrollView(
         child: Align(
           alignment: Alignment.center,
           child: Column(children: <Widget>[
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
-            Align(
+            Align
+            (
               alignment: Alignment.topRight,
               child: Container(
                 margin: const EdgeInsets.fromLTRB(0, 0, 15, 15),
@@ -259,9 +272,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Expanded(
                     child: TextButton(
-                      onPressed: () {predictImage(); setState(() {
-                        _loading =true;
-                      });},
+                      onPressed: () {
+                        predictImage();
+                        setState(() {
+                          _loading = true;
+                        });
+                      },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(0, 6, 0, 6),
                         child: Text(
@@ -283,49 +299,55 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            Stack(
-                     children: [
-            _predictedImageDefect != null
-                  ? 
-                       Container(
-                        
-                        decoration: BoxDecoration(border: Border.all(width: 3)),
-                        child: Image.memory(
-                            base64Decode(_predictedImageDefect!),
-                            width: 300,
-                            height: 300,
-                            fit: BoxFit.cover,
-                          ),
-                  )
-                  : Text(" "),
-                     ]),
-                  SizedBox(height: 20,),
-                  Stack(
-                    children : [
-            _predictedImageRisk != null ?
-                     Container(
+            Stack(children: [
+              _predictedImageDefect != null
+                  ? Container(
                       decoration: BoxDecoration(border: Border.all(width: 3)),
                       child: Image.memory(
-                         
-                          base64Decode(_predictedImageRisk!),
-                          width: 300,
-                          height: 300,
-                          fit: BoxFit.cover,
-                          
-                        ),
+                        base64Decode(_predictedImageDefect!),
+                        width: 300,
+                        height: 300,
+                        fit: BoxFit.cover,
+                      ),
                     )
-                    
-                  
                   : Text(" "),
-                  if(_loading)
-                    CircularProgressIndicator(color: Colors.black,) //if the image is loading 
-                  ]),
-                  _predictedOverallRisk !=null?
-                  Container(
+            ]),
+            SizedBox(
+              height: 20,
+            ),
+            Stack(children: [
+              _predictedImageRisk != null
+                  ? Container(
+                      decoration: BoxDecoration(border: Border.all(width: 3)),
+                      child: Image.memory(
+                        base64Decode(_predictedImageRisk!),
+                        width: 300,
+                        height: 300,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Text(" "),
+              if (_loading)
+                CircularProgressIndicator(
+                  color: Colors.black,
+                ) //if the image is loading
+            ]),
+            _predictedOverallRisk != null
+                ? Container(
                     margin: const EdgeInsets.all(5),
-                    child: Text("Overall risk of this tyre :  $_predictedOverallRisk ", style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 14, fontFamily: "Inter"),),):
-                    Text(" "),
-          SizedBox(height: 20,)
+                    child: Text(
+                      "Overall risk of this tyre :  $_predictedOverallRisk ",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontFamily: "Inter"),
+                    ),
+                  )
+                : Text(" "),
+            SizedBox(
+              height: 20,
+            )
           ]),
         ),
       ),
@@ -341,23 +363,28 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 TextButton(
                   onPressed: _getImageFromGallery,
                   child: const Text(
                     "Gallery",
-                    style: TextStyle(color: Colors.black,fontSize: 14),
+                    style: TextStyle(color: Colors.black, fontSize: 14),
                   ),
-                  style: TextButton.styleFrom(side: BorderSide(width: 2),backgroundColor: Colors.yellow),
+                  style: TextButton.styleFrom(
+                      side: BorderSide(width: 2),
+                      backgroundColor: Colors.yellow),
                 ),
                 Text("             "),
                 TextButton(
                   onPressed: _getImageFromCam,
                   child: const Text(
                     "Camera",
-                    style: TextStyle(color: Colors.black,fontSize: 14),
+                    style: TextStyle(color: Colors.black, fontSize: 14),
                   ),
-                  style: TextButton.styleFrom(side: BorderSide(width: 2),backgroundColor: Colors.yellow),
+                  style: TextButton.styleFrom(
+                      side: BorderSide(width: 2),
+                      backgroundColor: Colors.yellow),
                 ),
               ]),
             )

@@ -63,6 +63,9 @@ flutter:
     - assets/images.jpeg
     - assets/empty_image_icon.png
     - assets/GUIDE.png
+    - assets/developer.PNG
+    - assets/not_found.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
