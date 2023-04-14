@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:w1790191_frontend/guide.dart';
 import 'dart:convert';
-
+//
 import 'custom_search.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -27,13 +27,16 @@ class _MyHomePageState extends State<MyHomePage> {
     if (_imageString == null) {
       return;
     }
+
+    // * We neen to change 192.168.130.217 according to the connected network ipv4 address then only it will run with the real android device 
+    // * Also we should need to make sure both the mobile and the api running laptop are using the same network connection 
     final request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.5:5000/predict_defects'));
+        'POST', Uri.parse('http://192.168.1.4:5000/predict_defects'));
     final requestRisk = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.5:5000/predict_risks'));
+        'POST', Uri.parse('http://192.168.1.4:5000/predict_risks'));
     final OverallRiskrequest = http.MultipartRequest(
       'POST',
-      Uri.parse('http://192.168.1.5:5000/predict_overall_risk'),
+      Uri.parse('http://192.168.1.4:5000/predict_overall_risk'),
     );
     OverallRiskrequest.files.add(
       await http.MultipartFile.fromPath(

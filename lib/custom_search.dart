@@ -6,7 +6,7 @@ import 'contact.dart';
 import 'detect.dart';
 
 class CustomSearch extends SearchDelegate {
-  List<String> alldata = [
+ List<String> alldata = [
     "Guidance",
     "Detection Page",
     "Contacts",
@@ -22,7 +22,6 @@ class CustomSearch extends SearchDelegate {
       )
     ];
   }
-
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
@@ -86,5 +85,5 @@ class CustomSearch extends SearchDelegate {
             onTap: (){query = result;},
           );
         });
-  }
+  } 
 }
