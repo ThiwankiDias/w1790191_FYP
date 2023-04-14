@@ -29,6 +29,7 @@ def predict_defects():
         results.render()[0]
         img_save_name = f"D:/FYP/w1790191_full_code/w1790191_backend_api/static/images/pred_defects_image.jpg"
         Image.fromarray(results.ims[0]).save(img_save_name)  # save the predicted image.
+
         return send_file(img_save_name, mimetype='image/jpg')
     return render_template("index1.html")
 
@@ -54,8 +55,8 @@ def predict_risks():
 @app.route("/predict_overall_risk", methods=['GET', 'POST'])
 def predict_overall_risk():
     if flask.request.method == 'POST':
-        if request.files.get("image"):
-            img_file = request.files["image"]
+        if request.files.get("file"):
+            img_file = request.files["file"]
             img_bytes = img_file.read()
             img = Image.open(io.BytesIO(img_bytes))
             results = model_of_defects_risk_detection([img], size=640)
