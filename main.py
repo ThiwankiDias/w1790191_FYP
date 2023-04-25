@@ -51,7 +51,7 @@ def predict_risks():
         results.render()[0]
         img_save_name = f"D:/FYP/w1790191_full_code/w1790191_backend_api/static/images/pred_defects_risks_image.jpg"
         Image.fromarray(results.ims[0]).save(img_save_name)  # save the predicted image.
-        return send_file(img_save_name, mimetype='image/jpg') # return the response (predicted saved image) to the user
+        return send_file(img_save_name, mimetype='image/jpg')  # return the response (predicted saved image) to the user
     # if the request.method is GET
     return render_template("index2.html")
 
@@ -60,27 +60,30 @@ def predict_risks():
 def predict_overall_risk():
     # check whether the request.method is POST
     if request.method == 'POST':
-        if request.files.get("file"):
-            img_file = request.files["file"]
-            img_bytes = img_file.read()
-            img = Image.open(io.BytesIO(img_bytes))
-            results = model_of_defects_risk_detection([img], size=640)
-            prediction = results.pandas().xyxy[0]
-            if len(prediction) > 0:
-                # extract the list of detected class names from the prediction
-                class_names = prediction["name"].tolist()
-                # defined the order
-                risk_order = ["high_risk", "medium_risk", "low_risk"]
-                # sort the class names according to the above defined order
-                class_names.sort(key=risk_order.index)
-                highest_risk = class_names[0] # risk level of the defective tyre
-            else:
-                # if there are not any detected risk levels in image (if the tyre is not defective) the risk level of
-                # the defective tyre assigned to "no risk"
-                highest_risk = "no risk"
-                # results_dict = {"prediction": results.pandas().xyxy[0].to_dict(orient="records")}
-                # return flask.jsonify(results_dict)
-            return jsonify({"risk_level": highest_risk})
+        if "file" not in request.files:
+            return redirect(request.url)
+        file = request.files["file"]
+        if not file:
+            return
+        img_bytes = file.read()
+        img = Image.open(io.BytesIO(img_bytes))
+        results = model_of_defects_risk_detection([img], size=640)
+        prediction = results.pandas().xyxy[0]
+        if len(prediction) > 0:
+            # extract the list of detected class names from the prediction
+            class_names = prediction["name"].tolist()
+            # defined the order
+            risk_order = ["high_risk", "medium_risk", "low_risk"]
+            # sort the class names according to the above defined order
+            class_names.sort(key=risk_order.index)
+            highest_risk = class_names[0]  # risk level of the defective tyre
+        else:
+            # if there are not any detected risk levels in image (if the tyre is not defective) the risk level of
+            # the defective tyre assigned to "no risk"
+            highest_risk = "no risk"
+            # results_dict = {"prediction": results.pandas().xyxy[0].to_dict(orient="records")}
+            # return flask.jsonify(results_dict)
+        return jsonify({"risk_level": highest_risk})
     # if the request.method is GET
     return render_template("index3.html")
 
