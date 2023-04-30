@@ -1,5 +1,6 @@
+// Developer name - ( H. Thiwanki Dias Hettiarachchi, UoW id - w1790191) 
+// if the search item is not found app will navigate to this page 
 import 'package:flutter/material.dart';
-
 import 'custom_search.dart';
 
 class noSearch extends StatefulWidget{
@@ -13,7 +14,7 @@ class _noSearchState extends State<noSearch> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Contacts"),
+        title: Text("TYRE-DDR"),
         actions: [
           IconButton(
               onPressed: () {

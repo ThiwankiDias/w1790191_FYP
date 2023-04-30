@@ -30,6 +30,8 @@ dependencies:
   flutter:
     sdk: flutter
   image_picker: ^0.8.6+2
+  fluttertoast: ^8.2.1
+  http: ^0.13.5
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -65,6 +67,15 @@ flutter:
     - assets/GUIDE.png
     - assets/developer.PNG
     - assets/not_found.png
+    - assets/info.png
+    - assets/step_01.jpg
+    - assets/step_01-01.jpg
+    - assets/step_02.jpg
+    - assets/defects_result.jpg
+    - assets/risks_result.jpg
+    - assets/overall_risks_result.JPG
+    - assets/zoom_in.JPG
+    - assets/zoom_out.JPG
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,3 +1,5 @@
+// Developer name - ( H. Thiwanki Dias Hettiarachchi, UoW id - w1790191) 
+// Splash screen of the application 
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -13,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        const Duration(seconds: 5),
+        const Duration(seconds: 3),
         () => Navigator.pushReplacement<void,void>(
              context, MaterialPageRoute<void>(builder: (BuildContext context) => MyHomePage())));
   }

@@ -1,10 +1,12 @@
+// Developer name - ( H. Thiwanki Dias Hettiarachchi, UoW id - w1790191) 
+// flutter detection page  
 import 'dart:io';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:w1790191_frontend/guide.dart';
 import 'dart:convert';
-//
 import 'custom_search.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -13,39 +15,44 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // * We neen to change IP address (e.g. 192.168.130.217)according to the connected network's ipv4 address because the api is not yet deploy to production.
+    // * Also we should need to make sure both the mobile and the api running laptop are using the same network connection 
+  final String predictDefectsUrlString= 'http://192.168.130.217:5000/predict_defects'; 
+  final String predictRisksUrlString= 'http://192.168.130.217:5000/predict_risks'; 
+  final String predictOverallRiskUrlString= 'http://192.168.130.217:5000/predict_overall_risk';
   String? _imageString;
   String? _predictedImageDefect;
   String? _predictedImageRisk;
   String? _predictedOverallRisk;
   File? imageURI;
   bool _loading = false;
-  Future<void> predictImage() async {
-    //asynchronous method
+  Future<void> predictImage() async {   //asynchronous method to send POST requests to the flask API
     setState(() {
       _loading = true;
     });
     if (_imageString == null) {
       return;
     }
-
-    // * We neen to change 192.168.130.217 according to the connected network ipv4 address then only it will run with the real android device 
-    // * Also we should need to make sure both the mobile and the api running laptop are using the same network connection 
     final request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.4:5000/predict_defects'));
+        'POST', Uri.parse(predictDefectsUrlString));
     final requestRisk = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.1.4:5000/predict_risks'));
+        'POST', Uri.parse(predictRisksUrlString));
     final OverallRiskrequest = http.MultipartRequest(
       'POST',
-      Uri.parse('http://192.168.1.4:5000/predict_overall_risk'),
+      Uri.parse(predictOverallRiskUrlString),
     );
-    OverallRiskrequest.files.add(
-      await http.MultipartFile.fromPath(
+    request.files.add( // added the http.multipartFile object as part of http.MultpartRequest object before send it to api 
+      http.MultipartFile.fromBytes( //create the new http.Multipart file object which contains the binary data of the file we are going to send 
         'file',
-        imageURI!.path,
+        base64Decode(_imageString!),
+        filename: 'image.jpg',
       ),
     );
+    requestRisk.files.add(http.MultipartFile.fromBytes(
+        'file', base64Decode(_imageString!),
+        filename: 'image1.jpg'));
 
-    request.files.add(
+    OverallRiskrequest.files.add(
       http.MultipartFile.fromBytes(
         'file',
         base64Decode(_imageString!),
@@ -53,14 +60,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
 
-    requestRisk.files.add(http.MultipartFile.fromBytes(
-        'file', base64Decode(_imageString!),
-        filename: 'image1.jpg'));
-
     final response = await request.send();
     final responseRisk = await requestRisk.send();
     final overallRiskResponse = await OverallRiskrequest.send();
-    if (response.statusCode == 200 && responseRisk.statusCode == 200) {
+
+    //check weather response states codes of the requests are success 
+    if (response.statusCode == 200 && responseRisk.statusCode == 200 && overallRiskResponse.statusCode==200) {
       final jsonResponse = await overallRiskResponse.stream.bytesToString();
       final decodedResponse = json.decode(jsonResponse);
       final bytes = await response.stream.toBytes();
@@ -68,14 +73,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
       setState(() {
         _predictedOverallRisk = decodedResponse["risk_level"];
-        _predictedImageDefect = base64Encode(bytes);
+        _predictedImageDefect = base64Encode(bytes); 
         _predictedImageRisk = base64Encode(bytesRisk);
-        _loading = false;
+        _loading = false; // after prediction is over loading should over 
       });
       print('$_predictedOverallRisk');
     }
   }
 
+//function to allow the user to take pictures from camera 
   Future _getImageFromCam() async {
     try {
       XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -97,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     Navigator.pop(context);
   }
-
+//function to allow the user to upload image from gallery 
   Future _getImageFromGallery() async {
     try {
       XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -144,15 +150,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Align(
           alignment: Alignment.center,
-          child: Column(children: <Widget>[
-            const SizedBox(
-              height: 20,
-            ),
+          child: Column(children: <Widget>[ 
             Align
             (
               alignment: Alignment.topRight,
               child: Container(
-                margin: const EdgeInsets.fromLTRB(0, 0, 15, 15),
+                margin: const EdgeInsets.fromLTRB(0, 15, 15, 15),
                 child: TextButton(
                   onPressed: () {
                     Navigator.push(context,
@@ -202,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               width: 71,
                               fit: BoxFit.cover,
                             ))),
-                    height: 300,
+                    height: 400,
                     width: 300,
                   )
                 : Container(
@@ -210,8 +213,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Image.file(
                       imageURI!,
                       width: 300,
-                      height: 300,
-                      fit: BoxFit.cover,
+                      height: 400,
+                      fit: BoxFit.contain,
                     ),
                   ),
             Container(
@@ -276,10 +279,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        predictImage();
-                        setState(() {
-                          _loading = true;
-                        });
+                        if (imageURI != null){
+                          predictImage();
+                          setState(() {
+                            _loading = true;
+                          });
+                        }else{
+                         Fluttertoast.showToast(msg: "Please select the image ");
+                        }
                       },
                       child: const Padding(
                         padding: EdgeInsets.fromLTRB(0, 6, 0, 6),
@@ -304,31 +311,35 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Stack(children: [
               _predictedImageDefect != null
-                  ? Container(
-                      decoration: BoxDecoration(border: Border.all(width: 3)),
-                      child: Image.memory(
-                        base64Decode(_predictedImageDefect!),
-                        width: 300,
-                        height: 300,
-                        fit: BoxFit.cover,
+                  ? InteractiveViewer(
+                    child: Container(
+                        decoration: BoxDecoration(border: Border.all(width: 3)),
+                        child: Image.memory(
+                          base64Decode(_predictedImageDefect!),
+                          width: 300,
+                          height: 400,
+                          fit: BoxFit.contain,
+                        ),
                       ),
-                    )
-                  : Text(" "),
+                  )
+                  : Text(""),
             ]),
             SizedBox(
               height: 20,
             ),
             Stack(children: [
               _predictedImageRisk != null
-                  ? Container(
-                      decoration: BoxDecoration(border: Border.all(width: 3)),
-                      child: Image.memory(
-                        base64Decode(_predictedImageRisk!),
-                        width: 300,
-                        height: 300,
-                        fit: BoxFit.cover,
+                  ? InteractiveViewer(
+                    child: Container(
+                        decoration: BoxDecoration(border: Border.all(width: 3)),
+                        child: Image.memory(
+                          base64Decode(_predictedImageRisk!),
+                          width: 300,
+                          height: 400,
+                          fit: BoxFit.contain,
+                        ),
                       ),
-                    )
+                  )
                   : Text(" "),
               if (_loading)
                 CircularProgressIndicator(

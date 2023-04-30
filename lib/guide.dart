@@ -1,3 +1,6 @@
+// Developer name - ( H. Thiwanki Dias Hettiarachchi, UoW id - w1790191) 
+// Guidence page of the application 
+
 import 'package:flutter/material.dart';
 import 'package:w1790191_frontend/detect.dart';
 
@@ -57,13 +60,21 @@ class _GuideState extends State<Guide> {
                       )),
                 ),
                 Container(
-                    margin: EdgeInsets.fromLTRB(10, 2, 10, 10),
+                    margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
                     child: const Text(
-                      "In the Home screen, click the “SELECT IMAGE” button and chooses or capture your vehicle tyre Image. ",
+                      "In the Home screen, click the “SELECT IMAGE” button and chooses or capture your vehicle tyre Image by clicking the Gallery or Camera button. ",
                       style: TextStyle(fontSize: 15, fontFamily: 'Inter'),
                     )),
                 Container(
+                  decoration: BoxDecoration(border: Border.all(width: 1)),
                   margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
+                  child: Image(image: AssetImage("assets/step_01.jpg"),width: 300,),),
+                  Container(
+                  decoration: BoxDecoration(border: Border.all(width: 1)),
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                  child: Image(image: AssetImage("assets/step_01-01.jpg"),width: 300,),),
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
                   child: const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
@@ -84,6 +95,10 @@ class _GuideState extends State<Guide> {
                       ),
                     )),
                 Container(
+                  decoration: BoxDecoration(border: Border.all(width: 1)),
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                  child: Image(image: AssetImage("assets/step_02.jpg"),width: 300,),),
+                Container(
                   margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
                   child: const Align(
                       alignment: Alignment.topLeft,
@@ -100,10 +115,19 @@ class _GuideState extends State<Guide> {
                     child: const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "Then in the next pop up screen you should read the note.",
+                        "Then you can see the predicted results output images for detected defects and the risk of each defects below to the 'DETECT' button.",
                         style: TextStyle(fontSize: 15, fontFamily: 'Inter'),
                       ),
                     )),
+                    Container(
+                  decoration: BoxDecoration(border: Border.all(width: 1)),
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                  child: Image(image: AssetImage("assets/defects_result.jpg"),width: 300,),),
+
+                  Container(
+                  decoration: BoxDecoration(border: Border.all(width: 1)),
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                  child: Image(image: AssetImage("assets/risks_result.jpg"),width: 300,),),
                 Container(
                   margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
                   child: const Align(
@@ -121,42 +145,26 @@ class _GuideState extends State<Guide> {
                     child: const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "Then you can see the predicted results out put images for detected defects and the risk of each defects. ",
-                        style: TextStyle(fontSize: 15, fontFamily: 'Inter'),
-                      ),
-                    )),
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
-                  child: const Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Fifth step",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Inter'),
-                      )),
-                ),
-                Container(
-                    margin: EdgeInsets.fromLTRB(10, 2, 10, 10),
-                    child: const Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
                         "Then you can see the risk of defective tyre as a text.",
                         style: TextStyle(fontSize: 15, fontFamily: 'Inter'),
                       ),
                     )),
+                     Container(
+                      decoration: BoxDecoration(border: Border.all(width: 1)),
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                  child: Image(image: AssetImage("assets/overall_risks_result.JPG"),width: 300,),),
               ])),
+
           Container(
             color: Color(0xFF75B2EB),
             margin: EdgeInsets.all(15),
             padding: EdgeInsets.all(5),
             child: Column(children: <Widget>[
-              const Center(
+               const Center(
                 child: Padding(
                   padding: EdgeInsets.all(5.0),
                   child: Text(
-                    "Validity of the predicted Risks of tyres",
+                    "How to zoom out/ zoom in the predicted image results.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Inter',
@@ -171,7 +179,93 @@ class _GuideState extends State<Guide> {
                 child: Container(
                   margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
                   child: Text(
-                      "Detected defective tyre’s risk is only valid for when you are driving with these below conditions"),
+                      "If the clssified defects names are too small to see clearly, we can zoom out or zoom in around the image easily by pinching our two fingers inwards and outwards on the image."
+                      ,style: TextStyle(fontFamily: "Inter" ),
+                      ),
+                ),
+              ),
+              Center(
+                child: Row(children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(border: Border.all(width: 1)),
+                    margin: EdgeInsets.fromLTRB(10, 5, 5, 0),
+                    child: Image(image: AssetImage("assets/zoom_out.JPG"),width: 150,),),
+                    Container(
+                    decoration: BoxDecoration(border: Border.all(width: 2)),
+                    margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                    child: Image(image: AssetImage("assets/zoom_in.JPG"),width: 150,),),
+                ],
+                ),
+              )
+            ]),
+          ),
+          Container(
+            color: Color(0xFF75B2EB),
+            margin: EdgeInsets.all(15),
+            padding: EdgeInsets.all(5),
+            child: Column(children:   <Widget>[
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Text(
+                    "Types of tyre defects",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
+                child: Text(
+                    "This app can identify 10 types of tyre defects. The names of those defects can be found below."),
+              ),
+              Container(
+                  margin: EdgeInsets.fromLTRB(10, 15, 0, 10),
+                  child: const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Crack , Sidewall Bubble , Center Wear , Saw Tooth Wear , Flat Spot Wear , Cut , Shoulder Wear , Puncture by Foreign Object , Tread Separation , Exposed Wire Cords ",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Inter',
+                          color: Colors.white),
+                    ),
+                  )),
+            ],),
+          ),
+
+          Container(
+            color: Color(0xFF75B2EB),
+            margin: EdgeInsets.all(15),
+            padding: EdgeInsets.all(5),
+            child: Column(children: <Widget>[
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Text(
+                    "Validity of the predicted risks of tyres",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(10, 2, 10, 0),
+                  child: Text(
+                      "Detected defective tyre’s risk is only valid for when you are driving with these below conditions."),
                 ),
               ),
               Container(
@@ -179,7 +273,7 @@ class _GuideState extends State<Guide> {
                   child: const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Tyres should not be flattened yet.",
+                      "Tyres should not be flattened yet",
                       style: TextStyle(
                           fontSize: 15,
                           fontFamily: 'Inter',
@@ -234,7 +328,7 @@ class _GuideState extends State<Guide> {
                   child: Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Text(
-                      "Definitions of Predicted Risks",
+                      "Definitions of predicted risks",
                       style: TextStyle(
                           fontFamily: 'Inter',
                           fontWeight: FontWeight.bold,
@@ -248,7 +342,7 @@ class _GuideState extends State<Guide> {
                   child: const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "High risk",
+                        "High Risk",
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -258,7 +352,7 @@ class _GuideState extends State<Guide> {
                 Container(
                     margin: EdgeInsets.fromLTRB(10, 2, 10, 10),
                     child: const Text(
-                      "If you drive the vehicle with that defective tyre/ tyres, chances of bad effect are high ",
+                      "If you drive the vehicle with that defective tyre/ tyres, chances of bad effect are high.",
                       style: TextStyle(fontSize: 15, fontFamily: 'Inter'),
                     )),
                 Container(
@@ -278,7 +372,7 @@ class _GuideState extends State<Guide> {
                     child: const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "If You drive the vehicle with that defective tyre/ tyres, bad effects can happen or may not happen ",
+                        "If You drive the vehicle with that defective tyre/ tyres, bad effects can happen or may not happen. ",
                         style: TextStyle(fontSize: 15, fontFamily: 'Inter'),
                       ),
                     )),
@@ -299,7 +393,7 @@ class _GuideState extends State<Guide> {
                     child: const Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "If you drive with those defected tyre/ tyres, there is a very low chance of a bad effect",
+                        "If you drive with those defected tyre/ tyres, there is a very low chance of a bad effect.",
                         style: TextStyle(fontSize: 15, fontFamily: 'Inter'),
                       ),
                     )),

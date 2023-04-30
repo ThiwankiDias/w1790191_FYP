@@ -1,5 +1,4 @@
-// sdk: ">=2.7.0 <3.0.0"
-//flutter version 2.0.5 
+// Developer name - ( H. Thiwanki Dias Hettiarachchi, UoW id - w1790191) 
 import 'package:flutter/material.dart';
 import 'package:w1790191_frontend/splash_screen.dart';
 
