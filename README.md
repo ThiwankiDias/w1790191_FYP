@@ -1,6 +1,4 @@
-# w1790191_frontend
-
-A new Flutter project.
+# Final Year Project
 
 ## Getting Started
 
