@@ -17,9 +17,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   // * We neen to change IP address (e.g. 192.168.130.217)according to the connected network's ipv4 address because the api is not yet deploy to production.
     // * Also we should need to make sure both the mobile and the api running laptop are using the same network connection 
-  final String predictDefectsUrlString= 'http://192.168.130.217:5000/predict_defects'; 
-  final String predictRisksUrlString= 'http://192.168.130.217:5000/predict_risks'; 
-  final String predictOverallRiskUrlString= 'http://192.168.130.217:5000/predict_overall_risk';
+  final String predictDefectsUrlString= 'http://192.168.69.217:5000/predict_defects'; 
+  final String predictRisksUrlString= 'http://192.168.69.217:5000/predict_risks'; 
+  final String predictOverallRiskUrlString= 'http://192.168.69.217:5000/predict_overall_risk';
   String? _imageString;
   String? _predictedImageDefect;
   String? _predictedImageRisk;
