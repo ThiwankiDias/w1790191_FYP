@@ -2,13 +2,4 @@
 
 ### Defects Detection of vehicle Tyres by using YOLO algorithm
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This is a cutting-edge research project, developed to classify and locate the defects in road transportation vehicle tyres and assess their risk levels using a deep learning algorithm. As the final outcome, user friendly mobile application is developed to serve as the client interface for end-users.
