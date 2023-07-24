@@ -1,6 +1,6 @@
 # Final Year Research Project
 
-# Defects Detection of vehicle Tyres by using YOLO algoriyhm
+### Defects Detection of vehicle Tyres by using YOLO algoriyhm
 
 This project is a starting point for a Flutter application.
 
