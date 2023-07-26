@@ -4,6 +4,6 @@
 
 This is a cutting-edge research project, developed to classify and locate the defects in road transportation vehicle tyres and assess their risk levels using a deep learning algorithm. As the final outcome, user friendly mobile application is developed to serve as the client interface for end-users.
 
-Data Science part of the project : https://github.com/ThiwankiDias/w1790191_FYP/tree/models_branch
-Backend part of the project : https://github.com/ThiwankiDias/w1790191_FYP/tree/backend_branch
-Frontend Part of the project : https://github.com/ThiwankiDias/w1790191_FYP/tree/frontend_branch
+<li>Data Science part of the project : https://github.com/ThiwankiDias/w1790191_FYP/tree/models_branch</li>
+<li>Backend part of the project : https://github.com/ThiwankiDias/w1790191_FYP/tree/backend_branch</li>
+<li>Frontend Part of the project : https://github.com/ThiwankiDias/w1790191_FYP/tree/frontend_branch</li>
